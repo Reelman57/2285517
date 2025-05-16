@@ -26,6 +26,63 @@ twilio_number = "+12083063370"
 
 client = Client(account_sid, auth_token)
 # --------------------------------------------------------------------------
+def clean_data():
+# Read the CSV file, using the first row as column names
+df = pd.read_csv('2285517_Master.csv',delimiter=",")
+
+# Split the "Name" column into "First Name" and "Last Name"
+df[['Last_Name', 'First_Name']] = df['Name'].str.split(',', expand=True)
+df['First_Name'] = df['First_Name'].str.strip()
+df['Last_Name'] = df['Last_Name'].str.strip()
+
+# Function to split the first name and create a middle name column
+def split_name(First_Name):
+  names = First_Name.split()
+  if len(names) > 1:
+    return names[0], names[1]
+  else:
+    return First_Name, ""
+  
+def remove_carriage_return(address):
+  return address.replace('\n', ', ')
+
+def remove_rows_with_asterisk(df):
+   return df[~df['Name'].str.startswith('*')]
+
+def clean_phone_numbers(phone_number):
+
+    if pd.isnull(phone_number):
+        return phone_number  # Return the original value if it's NaN
+
+    # Remove non-numeric characters
+    phone_number = re.sub(r'\D', '', phone_number)
+
+    # Format the phone number
+    if len(phone_number) == 10:
+        return f"({phone_number[:3]}) {phone_number[3:6]}-{phone_number[6:]}"
+    else:
+        if len(phone_number) == 11:
+            return f"({phone_number[1:4]}) {phone_number[4:7]}-{phone_number[7:]}"
+        else:
+            return phone_number
+    
+# Remove rows with asterisk in the 'Name' column
+df = remove_rows_with_asterisk(df)
+
+# Apply the function to the "First_Name" column
+df[['First_Name', 'Middle_Name']] = df['First_Name'].apply(split_name).apply(pd.Series)
+
+# Apply the function to the "Address" column
+df['Address'] = df['Address'].apply(remove_carriage_return)
+
+# Clean the "Phone Number" column
+df['Phone Number'] = df['Phone Number'].apply(clean_phone_numbers)
+
+# Save the modified DataFrame to a new CSV file
+df.to_csv("2285517_Members.csv", index=False)
+
+# Now you can work with the DataFrame
+# --------------------------------------------------------------------------
 def get_send_time():
     timezone = pytz.timezone('America/Los_Angeles')
     now_utc = datetime.now(timezone)
@@ -107,6 +164,7 @@ def send_email(subject, body, data_list):
     return len(sent_emails)
 # --------------------------------------------------------------------------
 def process_data(data_path):
+    clean_data
     df = pd.read_csv(data_path)
     df_filtered = df[df['Age'] > 17]
     df_filtered = df_filtered[['First_Name', 'Last_Name', 'Phone Number']]
