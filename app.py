@@ -18,8 +18,7 @@ from twilio.rest import Client
 
 app = Flask(__name__)
 global twilio_number
-# account_sid = os.environ['TWILIO_TEST_SID']
-# auth_token = os.environ['TWILIO_TEST_TOKEN']
+
 account_sid = os.environ['TWILIO_ACCOUNT_SID']
 auth_token = os.environ['TWILIO_AUTH_TOKEN']
 messaging_sid = os.environ['TWILIO_MSGNG_SID']
