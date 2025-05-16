@@ -247,6 +247,10 @@ def incoming_sms():
     global x
     x = 0
 # --------------------------------------------------------------------------
+   if first_word == "helloworld" and from_number in authorized_list:
+        sms_send(msg_in, data_list, False)
+        print "Hello World"
+ # -------------------------------------------------------------------------- 
     if first_word == "sms77216" and from_number in authorized_list:
         sms_send(msg_in, data_list, False)
         confirm_send()
