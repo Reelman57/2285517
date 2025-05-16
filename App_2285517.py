@@ -26,7 +26,6 @@ messaging_sid = os.environ['TWILIO_MSGNG_SID']
 twilio_number = "+12086034040"
 
 client = Client(account_sid, auth_token)
-
 # --------------------------------------------------------------------------
 def get_send_time():
     timezone = pytz.timezone('America/Los_Angeles')
