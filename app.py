@@ -245,7 +245,6 @@ def incoming_sms():
             from_=twilio_number,
             to = from_number
             )
-
 # --------------------------------------------------------------------------
     else:
         
