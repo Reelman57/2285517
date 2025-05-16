@@ -1,0 +1,7 @@
+Django==5.1.4
+Flask==3.1.0
+pip==24.3.1
+twilio==9.3.7
+gunicorn
+pandas
+phonenumbers
