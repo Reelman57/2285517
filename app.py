@@ -28,12 +28,12 @@ client = Client(account_sid, auth_token)
 # --------------------------------------------------------------------------
 def clean_data():
 # Read the CSV file, using the first row as column names
-df = pd.read_csv('2285517_Master.csv',delimiter=",")
+  df = pd.read_csv('2285517_Master.csv',delimiter=",")
 
 # Split the "Name" column into "First Name" and "Last Name"
-df[['Last_Name', 'First_Name']] = df['Name'].str.split(',', expand=True)
-df['First_Name'] = df['First_Name'].str.strip()
-df['Last_Name'] = df['Last_Name'].str.strip()
+  df[['Last_Name', 'First_Name']] = df['Name'].str.split(',', expand=True)
+  df['First_Name'] = df['First_Name'].str.strip()
+  df['Last_Name'] = df['Last_Name'].str.strip()
 
 # Function to split the first name and create a middle name column
 def split_name(First_Name):
